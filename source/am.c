@@ -1,4 +1,4 @@
-#include "am.h"
+#include "3DSident.h"
 
 Result AMNet_GetDeviceCert(u8 *buffer)
 {
@@ -9,8 +9,7 @@ Result AMNet_GetDeviceCert(u8 *buffer)
 	cmdbuf[1] = 0x180;
 	cmdbuf[2] = (0x180 << 4) | 0xC;
 	cmdbuf[3] = (u32)buffer;
-
-	if(R_FAILED(ret = svcSendSyncRequest(amHandle))) return ret;
-
+	if(R_FAILED(ret = svcSendSyncRequest(amHandle)))
+		return ret;
 	return (Result)cmdbuf[1];
 }

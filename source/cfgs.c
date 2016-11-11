@@ -1,4 +1,5 @@
-#include "cfgs.h"
+#include "3DSident.h"
+
 
 Result cfgsInit() //Already initialized with CFGUinit();
 {
@@ -19,8 +20,7 @@ Result cfgsSecureInfoGetSerialNo(char *serial)
 	cmdbuf[1] = 0xF;
 	cmdbuf[2] = 12 | (0xF << 4);
 	cmdbuf[3] = (u32)serial;
-
-	if(R_FAILED(ret = svcSendSyncRequest(cfgHandle)))return ret;
-
+	if(R_FAILED(ret = svcSendSyncRequest(cfgHandle)))
+		return ret;
 	return (Result)cmdbuf[1];
 }

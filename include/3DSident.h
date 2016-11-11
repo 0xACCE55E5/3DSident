@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <stdlib.h>
-#include <png.h>
+//#include <png.h>
 #include <zlib.h>
 
 #pragma once

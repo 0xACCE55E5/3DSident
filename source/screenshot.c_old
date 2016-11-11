@@ -1,12 +1,13 @@
-#include "fs.h"
-#include "screenshot.h"
+#include "3DSident.h"
+
 
 static const struct
 {
 	GSPGPU_FramebufferFormats format;
 	u32                    bytes_per_pixel;
 	const char             *str;
-}formats[] =
+}
+formats[] =
 {
 	{ GSP_RGBA8_OES,   4, "rgba8",  },
 	{ GSP_BGR8_OES,    3, "bgr8",   },
@@ -256,7 +257,6 @@ int screenshot_png(const char *path, int level)
 		fclose(fp);
 		return -1;
 	}
-
 	png_set_compression_level(png_ptr, level);
 	png_set_IHDR(png_ptr, info_ptr, 400, 480, 8, PNG_COLOR_TYPE_RGB_ALPHA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 	png_write_info(png_ptr, info_ptr);

@@ -1,5 +1,7 @@
 #include <3ds.h>
 #include <stdio.h>
+#include "3DSident.h"
+
 
 static Handle actHandle;
 
@@ -26,8 +28,8 @@ Result ACTU_Initialize(u32 sdkVersion, u32 unknown, Handle handle)
     cmdbuf[5] = 0x0;
     cmdbuf[6] = handle;
 
-    if((ret = svcSendSyncRequest(actHandle))!=0) return ret;
-
+    if((ret = svcSendSyncRequest(actHandle))!=0)
+        return ret;
     return (Result)cmdbuf[1];
 }
 
@@ -42,8 +44,7 @@ Result ACTU_GetAccountDataBlock(u32 unknown, u32 size, u32 blockId, void* output
     cmdbuf[3] = blockId;
     cmdbuf[4] = (size << 4) | 0xC;
     cmdbuf[5] = (u32) output;
-
-    if((ret = svcSendSyncRequest(actHandle))!=0) return ret;
-
+    if((ret = svcSendSyncRequest(actHandle))!=0)
+        return ret;
     return (Result)cmdbuf[1];
 }

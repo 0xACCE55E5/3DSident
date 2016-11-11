@@ -4,12 +4,8 @@
 #include <stdarg.h>
 #include <malloc.h>
 #include <unistd.h>
+#include "3DSident.h"
 
-#include "actu.h"
-#include "cfgs.h"
-#include "frd.h"
-#include "mcu.h"
-#include "screenshot.h"
 
 #define SDK(a,b,c,d) ((a<<24)|(b<<16)|(c<<8)|d)
 
@@ -364,7 +360,7 @@ int main(int argc, char *argv[])
 		
 		if (hidKeysDown())
 		{
-			captureScreenshot();
+		//	captureScreenshot();
 			break;
 		}
 		
