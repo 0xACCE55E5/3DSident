@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <stdarg.h>
+#include <malloc.h>
+#include <unistd.h>
 //#include <png.h>
 #include <zlib.h>
 
@@ -24,51 +27,73 @@ GSPGPU_FramebufferFormats format; // = GSP_RGBA8_OES
 /*
 **	actu.c
 */
-Result	actInit(void);
-Result	actExit(void);
-Result	ACTU_Initialize(u32 sdkVersion, u32 unknown, Handle handle);
-Result	ACTU_GetAccountDataBlock(u32 unknown, u32 size, u32 blockId, void* output);
+Result		actInit(void);
+Result		actExit(void);
+Result		ACTU_Initialize(u32 sdkVersion, u32 unknown, Handle handle);
+Result		ACTU_GetAccountDataBlock(u32 unknown, u32 size, u32 blockId, void* output);
 /*
 **	am.c
 */
-Handle	amHandle;
-Result	AMNet_GetDeviceCert(u8 *buffer);
+Handle		amHandle;
+Result		AMNet_GetDeviceCert(u8 *buffer);
 /*
 **	cfgs.c
 */
-Handle	cfgHandle;
-Result	cfgsInit();
-Result	cfgsExit();
-Result	cfgsSecureInfoGetSerialNo(char *serial);
+Handle		cfgHandle;
+Result		cfgsInit();
+Result		cfgsExit();
+Result		cfgsSecureInfoGetSerialNo(char *serial);
 /*
 **	frd.c
 */
-Handle	frdHandle;
-Result	frdInit();
-Result	frdExit();
-Result	frdSetClientSdkVersion(u32 sdkVer);
-u64		frdPrincipalIdToFriendCode(u64 *fc, u64 pid);
-Result	frdGetMyFriendKey(FriendKey *key);
+Handle		frdHandle;
+Result		frdInit();
+Result		frdExit();
+Result		frdSetClientSdkVersion(u32 sdkVer);
+u64			frdPrincipalIdToFriendCode(u64 *fc, u64 pid);
+Result		frdGetMyFriendKey(FriendKey *key);
 /*
 **	fs.c
 */
-void	openSdArchive();
-void	closeSdArchive();
-int		makeDir(const char * path);
-bool	fileExists(char * path);
-bool	dirExists(const char * path);
-bool	deleteFile(const char *path);
+void		openSdArchive();
+void		closeSdArchive();
+int			makeDir(const char * path);
+bool		fileExists(char * path);
+bool		dirExists(const char * path);
+bool		deleteFile(const char *path);
 /*
 **	mcu.c
 */
-Handle	mcuhwcHandle;
-Result	mcuInit();
-Result	mcuExit();
-Result	mcuGetBatteryLevel(u8* out);
-Result	mcuGetBatteryVoltage(u8* out);
-Result	mcuGetVolume(u8* out);
+Handle		mcuhwcHandle;
+Result		mcuInit();
+Result		mcuExit();
+Result		mcuGetBatteryLevel(u8* out);
+Result		mcuGetBatteryVoltage(u8* out);
+Result		mcuGetVolume(u8* out);
 /*
 ** screenshot.c
 */
 void	captureScreenshot();
+
+/*
+** quitconsole.c
+*/
+int			quit_console(void);
+
+/*
+** init_console.c
+*/
+PrintConsole	*init_console(void);
+
+/*
+** get_info.c
+*/
+char		*get_nand_cid(void);
+char		*get_sdmc_cid(void);
+const char	*get_battery_status();
+char		*getMacAddress();
+FriendKey	getMyFriendKey(void);
+char		*getSerialNum(void);
+u32			getDeviceId(void);
+u64			getSoapId(void);
 

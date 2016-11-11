@@ -1,9 +1,4 @@
-#include <3ds.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
-#include <malloc.h>
-#include <unistd.h>
+
 #include "3DSident.h"
 
 
@@ -31,10 +26,9 @@ const char * getModel()
         "N3DS XL",
         "Unknown"
     };
-
     u8 model = 0;
-    CFGU_GetSystemModel(&model);
 
+    CFGU_GetSystemModel(&model);
     if (model < 5)
         return models[model];
     else
@@ -54,10 +48,9 @@ const char * getRegion()
         "TWN",
         "Unknown"
     };
-
     u8 region = 0;
-    CFGU_SecureInfoGetRegion(&region);
 
+    CFGU_SecureInfoGetRegion(&region);
     if (region < 7)
         return regions[region];
     else
@@ -81,10 +74,9 @@ const char * getLang()
         "Russian",
         "Traditional Chinese"
     };
-
     u8 language;
-    CFGU_GetSystemLanguage(&language);
 
+    CFGU_GetSystemLanguage(&language);
     if (language < 11)
         return languages[language];
     else
@@ -96,28 +88,6 @@ bool detectSD()
     bool isSD;
     FSUSER_IsSdmcDetected(&isSD);
     return isSD;
-}
-
-const char * batteryStatus()
-{
-    u8 batteryStateBool;
-    PTMU_GetBatteryChargeState(&batteryStateBool);
-
-    if (!batteryStateBool) 
-        return "Not charging";
-    else 
-        return "Charging";
-}
-
-char * getMacAddress()
-{
-    u8* macByte = (u8*)0x1FF81060; 
-    static char macAddress[18];
-
-    //sprintf automatically zero-terminates the string
-    sprintf(macAddress, "%02X:%02X:%02X:%02X:%02X:%02X", *macByte, *(macByte + 1), *(macByte + 2), *(macByte + 3), *(macByte + 4), *(macByte + 5));
-
-    return macAddress;
 }
 
 u32 titleCount(FS_MediaType mediaType)
@@ -181,102 +151,6 @@ u64 principalIdToFriendCode(u64 pid)
 	return fc;
 }
 
-FriendKey getMyFriendKey(void)
-{
-    FriendKey fk;
-    
-	frdGetMyFriendKey(&fk);
-    
-	return fk;
-}
-
-char * getSerialNum(void)
-{
-	static char str[32];
-    char serial[0x10];
-	
-    cfgsSecureInfoGetSerialNo(serial);
-    strcpy(str, serial);
-    
-	return str;
-}
-
-u32 getDeviceId(void)
-{
-    u32 tmp = 0;
-    AM_GetDeviceId(&tmp);
-    return tmp;
-}
-
-u64 getSoapId(void)
-{
-    u32 tmp = 0;
-    AM_GetDeviceId(&tmp);
-    return (tmp | (((u64) 4) << 32));
-}
-
-PrintConsole	*init_console(void)
-{
-	gfxInitDefault();
-	cfguInit();
-	cfgsInit();
-	fsInit();
-	sdmcInit();
-	ptmuInit();
-	mcuInit();
-	amInit();
-	psInit();
-	aptInit();
-	hidInit();
-	acInit();
-	gspLcdInit();
-	return(consoleInit(GFX_TOP, NULL));
-}
-
-int				quit_console(void)
-{
-	gspLcdExit();
-	acExit();
-	hidExit();
-	aptExit();
-	psExit();
-	amExit();
-	mcuExit();
-	ptmuExit();
-	sdmcExit();
-	fsExit();
-	cfgsExit();
-	cfguExit();
-	gfxExit();
-	return(0);
-}	
-
-char	*get_sdmc_cid(void)
-{
-	static char sdmc[30];
-	u8 buf[16];
-
-	FSUSER_GetSdmcCid(buf, 0x10);
-	sprintf(sdmc, "%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X\x1b",
-			buf[0], buf[1], buf[2], buf[3], buf[4], buf[5],
-			buf[6], buf[7], buf[8], buf[9], buf[10], buf[11],
-			buf[12], buf[13], buf[14], buf[15]);
-    return (sdmc);
-}
-
-char	*get_nand_cid(void)
-{
-	static char nand[30];
-	u8 buf[16];
-
-	FSUSER_GetNandCid(buf, 0x10);
-	sprintf(nand, "%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-			buf[0], buf[1], buf[2], buf[3], buf[4], buf[5],
-			buf[6], buf[7], buf[8], buf[9], buf[10], buf[11], 
-			buf[12], buf[13], buf[14], buf[15]);
-	return(nand);
-}
-
 int main(int argc, char *argv[])
 {
 
@@ -308,9 +182,6 @@ int main(int argc, char *argv[])
 				GET_VERSION_MINOR(firm_ver),
 				GET_VERSION_REVISION(firm_ver)
 				);
-
-		// printf(str_ver);
-
 		memset(nver, 0, sizeof(OS_VersionBin));
 		memset(cver, 0, sizeof(OS_VersionBin));
 		ret = osGetSystemVersionData(nver, cver);
@@ -351,7 +222,7 @@ int main(int argc, char *argv[])
 		** ----------------------------Battery Info-----------------------------**
 		*/
 		mcuGetBatteryLevel(&batteryPercent);
-		printf("\x1b[34;1m*\x1b[0m Battery percentage: \x1b[34;1m%3d%%\x1b[0m (\x1b[34;1m%s\x1b[0m) \n\x1b[0m", batteryPercent, batteryStatus());
+		printf("\x1b[34;1m*\x1b[0m Battery percentage: \x1b[34;1m%3d%%\x1b[0m (\x1b[34;1m%s\x1b[0m) \n\x1b[0m", batteryPercent, get_battery_status());
 		mcuGetBatteryVoltage(&batteryVolt);
 		printf("\x1b[34;1m*\x1b[0m Battery voltage: \x1b[34;1m%d\x1b[0m\n \n", batteryVolt);//,(Estimated: %0.1lf V) estimatedVolt);
 		/*
