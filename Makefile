@@ -36,7 +36,7 @@ INCLUDES	:=	include
 
 APP_TITLE	:= 3DSident
 APP_DESCRIPTION	:= Get more info about your 3DS, firmware, region etc. 
-APP_AUTHOR	:= Joel16
+APP_AUTHOR	:= Forked by 0xACCE55E5
 
 ICON := $(RESOURCES)/icon.png
 BANNER := $(RESOURCES)/banner.png
