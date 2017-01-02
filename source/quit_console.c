@@ -1,6 +1,6 @@
 #include "3DSident.h"
 
-int				quit_console(void)
+int	quit_console(void)
 {
 	gspLcdExit();
 	acExit();
@@ -16,4 +16,4 @@ int				quit_console(void)
 	cfguExit();
 	gfxExit();
 	return(0);
-}	
+}
