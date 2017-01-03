@@ -21,6 +21,11 @@
 */
 #include "FreeSans_ttf.h"
 
+#define WIDTH_TOP 400
+#define HEIGHT_TOP 240
+#define WIDTH_BOT 320
+#define HEIGHT_BOT 240
+
 #pragma once
 
 #define NUM_LEVELS (Z_BEST_COMPRESSION - Z_NO_COMPRESSION + 1)

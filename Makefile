@@ -65,7 +65,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lsftd -lfreetype -lpng -lz -lsf2d -lcitro3d -lpng16 -lz -lm -lctru #-lsftd -lfreetype -lsfil -lpng -ljpeg -lz -lsf2d -lcitro3d -lctru -lm #-lpng16
+LIBS	:=  -lsftd -lsfil -lfreetype -lpng -lz -lsf2d -lcitro3d -lpng16 -lz -lm -lctru
 
 OS := $(shell uname)
 
@@ -199,6 +199,10 @@ send: $(BUILD)
 
 run: $(BUILD)
 	@/Users/srabah/Documents/3ds_homebrew_dev/citra_emu/citra $(TARGET).3dsx
+
+#---------------------------------------------------------------------------------
+
+re: clean all
 
 #---------------------------------------------------------------------------------
 
