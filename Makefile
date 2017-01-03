@@ -52,7 +52,7 @@ APP_SYSTEM_MODE_EXT := Legacy
 # options for code generation
 #---------------------------------------------------------------------------------
 
-ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard
+ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:=	-g -Wall -O2 -mword-relocations -Werror -DVERSION=$(VERSION)\
 			-fomit-frame-pointer -ffast-math \
@@ -65,7 +65,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:=  -lz -lm -lctru #-lpng16
+LIBS	:= -lsftd -lfreetype -lpng -lz -lsf2d -lcitro3d -lpng16 -lz -lm -lctru #-lsftd -lfreetype -lsfil -lpng -ljpeg -lz -lsf2d -lcitro3d -lctru -lm #-lpng16
 
 OS := $(shell uname)
 

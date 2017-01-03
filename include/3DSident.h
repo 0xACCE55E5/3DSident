@@ -12,8 +12,17 @@
 #include <unistd.h>
 //#include <png.h>
 #include <zlib.h>
+#include <sfil.h>
+#include <sf2d.h>
+#include <sftd.h>
+/*
+** modifier le .h par le nom d'un autre font pour changer le font (et aussi dans
+** la fonction sftd_load_font_mem)
+*/
+#include "FreeSans_ttf.h"
 
 #pragma once
+
 #define NUM_LEVELS (Z_BEST_COMPRESSION - Z_NO_COMPRESSION + 1)
 #define screenshotPath "/3ds/3DSident/screenshots/3DSident.png"
 
@@ -21,12 +30,12 @@ typedef struct
 {
 	u32 principalId;
 	u64 localFriendCode;
-} FriendKey;
+}	FriendKey;
 
-FS_Archive sdmcArchive;
-int level, screenCapture;
-unsigned int format_choice;
-GSPGPU_FramebufferFormats format; // = GSP_RGBA8_OES
+FS_Archive					sdmcArchive;
+int							level, screenCapture;
+unsigned int				format_choice;
+GSPGPU_FramebufferFormats	format; // = GSP_RGBA8_OES
 /*
  **	actu.c
  */
@@ -76,7 +85,7 @@ Result		mcuGetVolume(u8* out);
 /*
  ** screenshot.c
  */
-void	captureScreenshot();
+void		captureScreenshot();
 
 /*
  ** quitconsole.c
