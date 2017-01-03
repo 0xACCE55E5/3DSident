@@ -46,5 +46,8 @@ int		main()
 		bottom_screen(texture);
 	}
 	sftd_free_font(font);
-	return (quit_console());
+	sf2d_free_texture(texture);
+	sf2d_fini();
+	sftd_fini();
+	return (0);
 }
