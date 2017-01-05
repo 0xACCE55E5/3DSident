@@ -4,7 +4,7 @@ void	bottom_screen(sf2d_texture *texture)
 {
 	sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
 		sf2d_draw_texture(texture, 0, 0);
-	/*sf2d_end_frame;*/
+	sf2d_end_frame;
 	sf2d_swapbuffers();
 }
 
@@ -18,7 +18,6 @@ int		main()
 	u32	kDown;
 	sftd_font *font = sftd_load_font_mem(FreeSans_ttf, FreeSans_ttf_size);
 	sf2d_texture *texture = sfil_load_PNG_file("3ds/3DSident/bottom_background.png", SF2D_PLACE_RAM); // put .png file in ~/.local/share/citra-emu/sdmc/3ds/3DSident/
-
 	/*printf("\x1b[0;18H");*/
 	/*printf("\x1b[32;1m3DSident 0.7\x1b[0m\n\n");*/
 	/*firm_info();*/
