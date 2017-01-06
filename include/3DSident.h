@@ -133,4 +133,12 @@ void	battery_info();
 void	misc_info();
 void	misc_info_refresh();
 
+/*
+ ** my_function.c
+ */
+bool	touch_button(u16 x1, u16 y1, u16 width, u16 height, touchPosition *touch, u32 kDown);
+void	place_button(sf2d_texture *tex_button, u16 x1, u16 y1);
+void	draw_hitbox_button(u16 x1, u16 y1, u16 width, u16 height);
+
+
 //#endif
