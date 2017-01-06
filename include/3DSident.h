@@ -37,6 +37,16 @@ typedef struct
 	u64 localFriendCode;
 }	FriendKey;
 
+typedef struct		button
+{
+	u16				x1;
+	u16				y1;
+	u16				width;
+	u16				height;
+	touchPosition	touch;
+	sf2d_texture	*tex_button;
+}					s_button;
+
 FS_Archive					sdmcArchive;
 int							level, screenCapture;
 unsigned int				format_choice;
@@ -139,6 +149,12 @@ void	misc_info_refresh();
 bool	touch_button(u16 x1, u16 y1, u16 width, u16 height, touchPosition *touch, u32 kDown);
 void	place_button(sf2d_texture *tex_button, u16 x1, u16 y1);
 void	draw_hitbox_button(u16 x1, u16 y1, u16 width, u16 height);
-
+void	init_button(s_button *button,
+					sf2d_texture *tex_button,
+					u16 x1,
+					u16 y1,
+					u16 width,
+					u16 height);
+void	place_button_test(s_button *button);
 
 //#endif

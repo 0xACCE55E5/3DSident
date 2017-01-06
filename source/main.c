@@ -26,6 +26,8 @@ int		main()
 	sf2d_texture	*tex_top = sfil_load_PNG_file("3ds/3DSident/assets/top_background.png", SF2D_PLACE_RAM);
 	sf2d_texture	*tex_bottom = sfil_load_PNG_file("3ds/3DSident/assets/bottom_background.png", SF2D_PLACE_RAM);
 	sf2d_texture	*tex_button = sfil_load_PNG_file("3ds/3DSident/assets/button.png", SF2D_PLACE_RAM);
+	s_button		button_1;
+	init_button(&button_1, tex_button, 0, 0, tex_button->width, tex_button->height);
 	/*firm_info();*/
 	/*sys_info();*/
 	/*battery_info();*/
@@ -53,6 +55,7 @@ int		main()
 		if (kDown & KEY_START)
 			break;
 		bottom_screen(tex_bottom, tex_button);
+		place_button_test(&button_1);
 		if (touch_button(90, 90, tex_button->width, tex_button->height, &touch, kDown) == true)
 			break ;
 		/*if (kDown & KEY_TOUCH)*/
