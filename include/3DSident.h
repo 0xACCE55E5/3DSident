@@ -144,17 +144,22 @@ void	misc_info();
 void	misc_info_refresh();
 
 /*
- ** my_function.c
+ ** gui_function.c
  */
-bool	touch_button(u16 x1, u16 y1, u16 width, u16 height, touchPosition *touch, u32 kDown);
-void	place_button(sf2d_texture *tex_button, u16 x1, u16 y1);
-void	draw_hitbox_button(u16 x1, u16 y1, u16 width, u16 height);
 void	init_button(s_button *button,
 					sf2d_texture *tex_button,
 					u16 x1,
-					u16 y1,
-					u16 width,
-					u16 height);
-void	place_button_test(s_button *button);
+					u16 y1);
+
+void	draw_button(s_button *button);
+
+bool	touch_button(s_button *button, touchPosition *touch, u32 kDown);
+
+
+void	draw_hitbox_button(	u16 x1,
+							u16 y1,
+							u16 width,
+							u16 height);
+
 
 //#endif
