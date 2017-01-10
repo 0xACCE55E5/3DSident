@@ -15,6 +15,7 @@
 #include <sfil.h>
 #include <sf2d.h>
 #include <sftd.h>
+#include <gui3ds.h>
 /*
 ** modifier le .h par le nom d'un autre font pour changer le font (et aussi dans
 ** la fonction sftd_load_font_mem)
@@ -36,16 +37,6 @@ typedef struct
 	u32 principalId;
 	u64 localFriendCode;
 }	FriendKey;
-
-typedef struct		button
-{
-	u16				x1;
-	u16				y1;
-	u16				width;
-	u16				height;
-	touchPosition	touch;
-	sf2d_texture	*tex_button;
-}					s_button;
 
 FS_Archive					sdmcArchive;
 int							level, screenCapture;
@@ -142,24 +133,5 @@ void	sys_info();
 void	battery_info();
 void	misc_info();
 void	misc_info_refresh();
-
-/*
- ** gui_function.c
- */
-void	init_button(s_button *button,
-					sf2d_texture *tex_button,
-					u16 x1,
-					u16 y1);
-
-void	draw_button(s_button *button);
-
-bool	touch_button(s_button *button, touchPosition *touch, u32 kDown);
-
-
-void	draw_hitbox_button(	u16 x1,
-							u16 y1,
-							u16 width,
-							u16 height);
-
 
 //#endif
