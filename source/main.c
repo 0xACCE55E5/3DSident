@@ -9,38 +9,6 @@ void	bottom_screen(sf2d_texture *tex_bottom, sf2d_texture *tex_button)
 		sf2d_draw_texture(tex_bottom, 0, 0);
 	/*sf2d_end_frame;*/
 }
-// Ajouter cur_x et cur_y dans une structure
-// fix lorsque quon appuie sur le bouton en dehors de la zone et quon relache le stylet dans la zone du bouton
-bool	gui3ds_touch_button_test(s_button *button, touchPosition *touch, u32 kDown, u32 kUp)
-{
-	static u16	cur_x = 0;
-	static u16	cur_y = 0;
-	/*sftd_font		*font = sftd_load_font_mem(FreeSans_ttf, FreeSans_ttf_size);*/
-
-	/*sftd_draw_textf(font, 0, 0, RGBA8(0, 255, 0, 255), 15, "touch.px = %d", cur_x);*/
-	/*sftd_draw_textf(font, 0, 20, RGBA8(0, 255, 0, 255), 15, "touch.py = %d", cur_y);*/
-	/*if (kDown & KEY_TOUCH)*/
-	/*{*/
-		/*if (touch->px >= button->x1 && touch->px <= (button->x1 + button->width) &&*/
-			/*touch->py >= button->y1 && touch->py <= (button->y1 + button->height))*/
-		/*{*/
-			if (touch->px && touch->py != 0)
-			{
-				cur_x = touch->px;
-				cur_y = touch->py;
-			}
-			if (kUp & KEY_TOUCH)
-			{
-				if (cur_x >= button->x1 && cur_x <= (button->x1 + button->width) &&
-					cur_y >= button->y1 && cur_y <= (button->y1 + button->height))
-					return (true);
-			}
-			/*sftd_free_font(font);*/
-		/*}*/
-	/*}*/
-	return (false);
-	(void)kUp;
-}
 
 void	initialisation_screen()
 {
@@ -68,7 +36,11 @@ int		main()
 	sf2d_texture	*tex_top = sfil_load_PNG_file("3ds/3DSident/assets/top_background.png", SF2D_PLACE_RAM);
 	sf2d_texture	*tex_bottom = sfil_load_PNG_file("3ds/3DSident/assets/bottom_background.png", SF2D_PLACE_RAM);
 	sf2d_texture	*tex_button = sfil_load_PNG_file("3ds/3DSident/assets/button.png", SF2D_PLACE_RAM);
+	sf2d_texture	*tex_button_pressed = sfil_load_PNG_file("3ds/3DSident/assets/button_pressed.png", SF2D_PLACE_RAM);
+	sftd_font		*font = sftd_load_font_mem(FreeSans_ttf, FreeSans_ttf_size);
 	s_button		button_1;
+	
+	memset(&button_1, 0, sizeof(button_1));
 	gui3ds_init_button_texture(&button_1, tex_button, 90, 190);
 	/*firm_info();*/
 	/*sys_info();*/
@@ -93,14 +65,39 @@ int		main()
 		hidTouchRead(&touch);
 		kUp = hidKeysUp();
 		kDown = hidKeysDown();
+
 		/*kHeld = hidKeysHeld();*/
 		/*kUp = hidKeysUp();*/
 		if (kDown & KEY_START)
 			break;
 		bottom_screen(tex_bottom, tex_button);
 		gui3ds_draw_button_texture(&button_1);
-		if (gui3ds_touch_button_test(&button_1, &touch, kDown, kUp) == true)
-			break ;
+
+		if (kDown & KEY_TOUCH)
+		{
+			button_1.start_touch_x = touch.px;
+			button_1.start_touch_y = touch.py;
+			if (button_1.start_touch_x >= button_1.x1 && button_1.start_touch_x <= (button_1.x1 + button_1.width) &&
+				button_1.start_touch_y >= button_1.y1 && button_1.start_touch_y <= (button_1.y1 + button_1.height))
+			{
+				button_1.texture_button = tex_button_pressed;
+				if (gui3ds_touch_button(&button_1, &touch, kDown, kUp) == true)
+				{
+					button_1.texture_button = tex_button;
+					break ;
+				}
+			}
+		}
+		if (kUp & KEY_TOUCH)
+		{
+			button_1.texture_button = tex_button;
+		}
+		/*if (gui3ds_touch_button(&button_1, &touch, kDown, kUp) == true)*/
+			/*break ;*/
+	sftd_draw_textf(font, 0, 0, RGBA8(0, 255, 0, 255), 15, "touch.px = %d", touch.px);
+	sftd_draw_textf(font, 0, 20, RGBA8(0, 255, 0, 255), 15, "touch.py = %d", touch.py);
+	sftd_draw_textf(font, 0, 40, RGBA8(0, 255, 0, 255), 15, "start_touch_x = %d", button_1.start_touch_x);
+	sftd_draw_textf(font, 0, 60, RGBA8(0, 255, 0, 255), 15, "start_touch_y = %d", button_1.start_touch_y);
 		/*if (kDown & KEY_TOUCH)*/
 		/*{*/
 			/*if (touch.px >= 90 && touch.px <= (90 + tex_button->width) && touch.py >= 90 && touch.py <= (90 + tex_button->height))*/
@@ -110,10 +107,12 @@ int		main()
 		/*}*/
 		sf2d_swapbuffers();
 	}
-	/*sftd_free_font(font);*/
+	sftd_free_font(font);
 	sf2d_free_texture(tex_bottom);
 	sf2d_free_texture(tex_top);
 	sf2d_free_texture(tex_button);
+	sf2d_free_texture(tex_button_pressed);
+	sftd_free_font(font);
 	sf2d_fini();
 	sftd_fini();
 	return (0);
